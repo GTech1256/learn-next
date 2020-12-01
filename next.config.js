@@ -2,6 +2,6 @@ require("dotenv").config();
 
 module.exports = {
   env: {
-    API_URL: process.env.API_URL
+    NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL
   }
 }

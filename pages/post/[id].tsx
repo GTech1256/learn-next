@@ -15,7 +15,7 @@ export default function Post({post: serverPost}: IProps) {
 
   useEffect(() => {
     async function load() {
-      const response = await fetch(`${process.env.API_URL}/post/${router.query.id}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/post/${router.query.id}`)
       const data = await response.json();
 
       setPost(data);
@@ -55,7 +55,7 @@ Post.getInitialProps = async ({query, req}: PostNextPageContext) => {
     return {}
   }
 
-  const response = await fetch(`${process.env.API_URL}/post/${query.id}`)
+  const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/post/${query.id}`)
   const post: IPost = await response.json();
 
   return {post};
