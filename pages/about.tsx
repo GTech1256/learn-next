@@ -23,7 +23,7 @@ export default function About({serverData}: IProps) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/about`)
+  const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/about`)
   const serverData: IProps = await response.json();
 
   return {props: {serverData}}
