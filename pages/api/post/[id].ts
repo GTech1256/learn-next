@@ -1,13 +1,18 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {posts} from "../../../db.json";
 import {IPost} from "../../../interfaces/post";
+import {getPost} from "../../../services/db/model/posts";
 
 interface PostNextApiRequest extends NextApiRequest {
   query: {
-    id: string
+    id: IPost['id']
   }
 }
 
-export default function about(req: PostNextApiRequest, res: NextApiResponse<IPost>) {
-  res.json(posts.find(({id}) => id === req.query.id))
+export default async function postAPI(
+  req: PostNextApiRequest,
+  res: NextApiResponse<IPost>
+) {
+  const post = await getPost(req.query.id)
+  
+  res.json(post)
 }

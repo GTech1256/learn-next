@@ -1,7 +1,12 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {IPost} from "../../interfaces/post";
-import {posts} from "../../db.json";
+import {getAllPosts} from "../../services/db/model/posts";
 
-export default function about(_req: NextApiRequest, res: NextApiResponse<IPost[]>) {
+export default async function postsAPI(
+  _req: NextApiRequest,
+  res: NextApiResponse<IPost[]>
+) {
+  const posts = await getAllPosts()
+  
   res.json(posts)
 }

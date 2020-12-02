@@ -1,9 +1,12 @@
 import {useState, useEffect} from "react";
 import {useRouter} from "next/router";
+import {NextPageContext} from "next";
 import Link from "next/link";
+
+import {IPost} from "../../interfaces/post";
 import MainLayout from "../../layout/MainLayout";
-import { NextPageContext } from "next";
-import { IPost } from "../../interfaces/post";
+import {getPost} from "../../services/db/model/posts";
+import {fetchPost} from "../../services/transport/post";
 
 interface IProps {
   post?: IPost;
@@ -15,10 +18,9 @@ export default function Post({post: serverPost}: IProps) {
 
   useEffect(() => {
     async function load() {
-      const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/post/${router.query.id}`)
-      const data = await response.json();
+      const postData = await fetchPost(router.query.id as string);
 
-      setPost(data);
+      setPost(postData);
     }
 
     if (!serverPost) {
@@ -55,8 +57,7 @@ Post.getInitialProps = async ({query, req}: PostNextPageContext) => {
     return {}
   }
 
-  const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/post/${query.id}`)
-  const post: IPost = await response.json();
+  const post: IPost = await getPost(query.id);
 
   return {post};
 }

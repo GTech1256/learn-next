@@ -3,6 +3,8 @@ import Link from "next/link";
 import {useState, useEffect} from "react";
 import {IPost} from "../interfaces/post";
 import MainLayout from "../layout/MainLayout"
+import {getAllPosts} from "../services/db/model/posts";
+import {fetchPosts} from "../services/transport/posts";
 
 interface IProps {
   posts?: IPost[]
@@ -13,10 +15,9 @@ export default function Posts({posts: serverPosts}: IProps) {
 
   useEffect(() => {
     async function load() {
-      const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts/`)
-      const data = await response.json();
+      const postsData = await fetchPosts()
 
-      setPosts(data);
+      setPosts(postsData);
     }
 
     if (!serverPosts) {
@@ -55,8 +56,7 @@ Posts.getInitialProps = async ({req}: NextPageContext) => {
     return {posts: null}
   }
 
-  const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/posts`)
-  const posts: IPost[] = await response.json();
+  const posts: IPost[] = await getAllPosts();
 
   return {posts};
 }

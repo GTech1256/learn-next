@@ -1,6 +1,7 @@
 import Router from "next/router"
 import {IAbout} from "../interfaces/about"
 import MainLayout from "../layout/MainLayout"
+import {getAboutModel} from "../services/db/model/about"
 
 interface IProps {
   serverData: IAbout
@@ -23,8 +24,7 @@ export default function About({serverData}: IProps) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/about`)
-  const serverData: IProps = await response.json();
+  const serverData = await getAboutModel();
 
   return {props: {serverData}}
 } 
