@@ -1,21 +1,14 @@
-const API_PATH = '/api'
+const API_PATH = '/api';
 
-type Get = <T = any>(url: string, config?: RequestInit) => Promise<T>;
+class Http {
+  public async get<T>(url: string) {
+    const response = await fetch(`${API_PATH}${url}`);
 
-interface IMethod {
-  get: Get
+    if (response.status !== 200) throw response;
+
+    return response.json();
+  }
 }
 
-export const createHttp: () => IMethod = () => {
-  
-  return {
-    get: (url) => fetch(`${API_PATH}${url}`)
-      .then((res) => {
-        if (res.status !== 200) throw res
 
-        return res.json()
-      })
-  };
-}
-
-export default createHttp()
+export default new Http()
